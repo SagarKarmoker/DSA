@@ -130,6 +130,51 @@ public class BST extends Node{
         }
     }
 
+    // delete a node from BST
+    public static int max(Node node){
+        if(node == null){
+            return 0;
+        }
+        if(node.right != null){
+           return max(node.right);
+        }
+        else {
+            return node.data;
+        }
+    }
+
+    public static Node deleteNode(Node node, int key){
+        if(node == null){
+            return null;
+        }
+
+        if(key > node.data){
+            node.right = deleteNode(node.right, key);
+        }
+        else if(key < node.data){
+            node.left = deleteNode(node.left, key);
+        }
+        else{
+            // main working code start here (when node have 2 child, or 1 child)
+            if(node.left != null && node.right != null){
+                int left_max = max(node.left);
+                node.data = left_max;
+                node.left = deleteNode(node.left, left_max);
+            }
+            else if(node.left != null){
+                return node.left;
+            }
+            else if(node.right != null){
+                return node.right;
+            }
+            else {
+                return null;
+            }
+        }
+
+        return node;
+    }
+
 
     public static void main(String[] args) {
         BST bst = new BST();
@@ -148,12 +193,17 @@ public class BST extends Node{
         preOrder(bst.root);
         System.out.println();
 
-        System.out.print("Post order : ");
-        postOrder(bst.root);
+//        System.out.print("Post order : ");
+//        postOrder(bst.root);
+//
+//        System.out.println();
+//        System.out.print("In order : ");
+//        inOrder(bst.root);
 
         System.out.println();
-        System.out.print("In order : ");
-        inOrder(bst.root);
-
+        deleteNode(bst.root, 15);
+        System.out.print("Pre order : ");
+        preOrder(bst.root);
+        System.out.println();
     }
 }
