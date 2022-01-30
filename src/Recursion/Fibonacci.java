@@ -1,0 +1,22 @@
+package Recursion;
+
+public class Fibonacci {
+
+    public static int fibo(int n){
+        //f(n) = f(n-1) + f(n-2) which is sum of two perivous numbers
+
+        // base case
+        if(n == 0){
+            return 0;
+        }
+        if(n == 1){
+            return 1;
+        }
+
+        return fibo(n - 1) + fibo(n - 2);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(fibo(8));
+    }
+}
