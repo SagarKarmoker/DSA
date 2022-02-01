@@ -1,5 +1,8 @@
 package BST;
 
+import java.util.List;
+import java.util.Stack;
+
 class Node{
     int data;
     Node left, right;
@@ -135,11 +138,11 @@ public class BST extends Node{
         if(node == null){
             return 0;
         }
-        if(node.right != null){
+        if(node.right != null){ // this will find the max element of the node's left side
            return max(node.right);
         }
         else {
-            return node.data;
+            return node.data; // this will return max value element
         }
     }
 
@@ -156,6 +159,7 @@ public class BST extends Node{
         }
         else{
             // main working code start here (when node have 2 child, or 1 child)
+            // we are deleting the node and replacing with the left side max value
             if(node.left != null && node.right != null){
                 int left_max = max(node.left);
                 node.data = left_max;
@@ -175,6 +179,50 @@ public class BST extends Node{
         return node;
     }
 
+    // Traversing of BST using iterative way
+    // preOrder using stack (Big O(n))
+    public static void pre_order(Node root){
+        // base case
+        if(root == null){
+            return;
+        }
+
+        Stack<Node> st = new Stack<Node>();
+        st.push(root);
+
+        while (!st.isEmpty()){
+            Node temp = st.pop();
+            System.out.print(temp.data + " ");
+
+            if(temp.right != null){
+                st.push(temp.right);
+            }
+            if(temp.left != null){
+                st.push(temp.left);
+            }
+        }
+    }
+
+    public static void post_order(Node root){
+        // base case
+        if(root == null){
+            return;
+        }
+
+        Stack<Node> st = new Stack<Node>();
+        st.push(root);
+
+        while (!st.isEmpty()){
+            if(root.right != null){
+                st.push(root.right);
+            }
+            if(root.left != null){
+                st.push(root.left);
+            }
+            Node temp = st.pop();
+            System.out.print(temp.data + " ");
+        }
+    }
 
     public static void main(String[] args) {
         BST bst = new BST();
@@ -193,8 +241,8 @@ public class BST extends Node{
         preOrder(bst.root);
         System.out.println();
 
-//        System.out.print("Post order : ");
-//        postOrder(bst.root);
+        System.out.print("Post order : ");
+        postOrder(bst.root);
 //
 //        System.out.println();
 //        System.out.print("In order : ");
@@ -205,5 +253,13 @@ public class BST extends Node{
         System.out.print("Pre order : ");
         preOrder(bst.root);
         System.out.println();
+
+
+        System.out.println("BST preorder in iterative way: ");
+        pre_order(bst.root);
+
+        System.out.println();
+        post_order(bst.root);
+
     }
 }
