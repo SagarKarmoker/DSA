@@ -1,6 +1,5 @@
 package BST;
 
-import java.util.List;
 import java.util.Stack;
 
 class Node{
@@ -204,23 +203,71 @@ public class BST extends Node{
     }
 
     public static void post_order(Node root){
-        // base case
+        // using two stack
+        Stack<Node> s1 = new Stack<Node>();
+        Stack<Node> s2 = new Stack<Node>();
+
+        //base case
         if(root == null){
             return;
         }
 
-        Stack<Node> st = new Stack<Node>();
-        st.push(root);
+        s1.push(root);
 
-        while (!st.isEmpty()){
-            if(root.right != null){
-                st.push(root.right);
+        while (!s1.isEmpty()){
+            Node temp = s1.pop();
+            s2.push(temp);
+
+            if(temp.left != null){
+                s1.push(temp.left);
             }
-            if(root.left != null){
-                st.push(root.left);
+            if(temp.right != null){
+                s1.push(temp.right);
             }
-            Node temp = st.pop();
+        }
+        while (!s2.isEmpty()){
+            Node temp = s2.pop();
             System.out.print(temp.data + " ");
+        }
+    }
+
+    public static void post_order_oneStack(Node root){
+        // using one stack
+        Stack<Node> st = new Stack<Node>();
+        while (true){
+            while (root != null){
+                st.push(root);
+                st.push(root);
+                root = root.left;
+            }
+
+            if(st.isEmpty()) {
+                return;
+            }
+            root = st.pop();
+
+            if(!st.isEmpty() && st.peek() == root){
+                root = root.right;
+            }
+            else {
+                System.out.print(root.data + " ");
+                root = null;
+            }
+        }
+    }
+
+    public static void in_order(Node root){
+        Stack<Node> stack = new Stack<>();
+        Node curr = root;
+
+        while (curr != null || stack.size() > 0){
+            while (curr != null){
+                stack.push(curr);
+                curr = curr.left;
+            }
+            curr = stack.pop();
+            System.out.print(curr.data + " ");
+            curr = curr.right;
         }
     }
 
@@ -261,5 +308,26 @@ public class BST extends Node{
         System.out.println();
         post_order(bst.root);
 
+        System.out.println();
+        post_order_oneStack(bst.root);
+
+        System.out.println();
+        in_order(bst.root);
+
     }
+
+
+    /*public static void main(String[] args) {
+        BST bst = new BST();
+        bst.root = new Node(1);
+        bst.root.left = new Node(2);
+        bst.root.right = new Node(3);
+        bst.root.left.left = new Node(4);
+        bst.root.left.right = new Node(5);
+
+//        insertRe(bst.root, 4);
+//        insertRe(bst.root, 5);
+
+        in_order(bst.root);
+    }*/
 }
