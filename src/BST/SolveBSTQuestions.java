@@ -1,13 +1,13 @@
 package BST;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * https://leetcode.com/tag/binary-search-tree/
  * https://practice.geeksforgeeks.org/explore/?category%5B%5D=Binary%20Search%20Tree&page=1&category%5B%5D=Binary%20Search%20Tree
+ *
+ * Questions:
+ * https://leetcode.com/problems/n-ary-tree-postorder-traversal/
  */
 
 public class SolveBSTQuestions extends BST {
@@ -97,23 +97,147 @@ public class SolveBSTQuestions extends BST {
         System.out.println(Arrays.toString(list.toArray()));
     }
 
+    // check for BST or not
+    static Node prev = null;
+    static boolean isBST(Node root){
+        if(root != null){
+            if(!isBST(root.left)){
+                return false;
+            }
+            if(prev != null && root.data <= prev.data){
+                return false;
+            }
+
+            prev = root;
+            return isBST(root.right);
+        }
+        return true;
+    }
+
+
+    /*static ArrayList<Integer> list_arr = new ArrayList<>();
+    public static void inorder(Node node){
+        if(node.left != null){
+            inorder(node.left);
+        }
+        list_arr.add(node.data);
+        if(node.right != null){
+            inorder(node.right);
+        }
+    }
+
+    public int kthSmallest(Node root, int k) {
+        inorder(root);
+        return list_arr.get(k);
+    }*/
+
+    static ArrayList<Integer> list_arr = new ArrayList<>();
+    public static ArrayList<Integer> inorder(Node node){
+        if(node == null){
+            return list_arr;
+        }
+        if(node.left != null){
+            inorder(node.left);
+        }
+        list_arr.add(node.data);
+        if(node.right != null){
+            inorder(node.right);
+        }
+
+        return list_arr;
+    }
+
+    public int kthSmallest(Node root, int k) {
+        ArrayList<Integer> list;
+        list = inorder(root);
+        return list.get(k-1);
+    }
+
+    public Node trimBST(Node root, int low, int high) {
+
+        if(root == null){
+            return null;
+        }
+        // if the val < low so the tree on the right side
+        if(root.data < low){
+            return trimBST(root.right, low, high);
+        }
+        // if the val > high so the tree on the left side
+        if(root.data > high){
+            return trimBST(root.left, low, high);
+        }
+        // updating the result
+        root.left = trimBST(root.left, low, high);
+        root.right = trimBST(root.right, low, high);
+
+        return root;
+    }
+
+    // Level Order Traversal
+    /**
+     * using Queue
+     * add root to queue first then
+     * remove 1 ele then, add left and right child of the removed ele
+     * @param root
+     */
+    public static void levelOrderTraversal(Node root){
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(root);
+        while (!q.isEmpty()){
+            Node cur = q.remove();
+            System.out.print(cur.data + " ");
+
+            if(cur.left != null){
+                q.add(cur.left);
+            }
+            if(cur.right != null){
+                q.add(cur.right);
+            }
+        }
+    }
+
+    public static void levelOrderTraversal_ln(Node root){
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(root);
+        q.add(null); // just adding null end of the queue
+
+        while (!q.isEmpty()){
+            Node cur = q.remove();
+            // checking if cur null or not, if null sending it to end of the queue
+            if(cur == null){
+                if(q.isEmpty()){
+                    return;
+                }
+                q.add(null);
+                System.out.println();
+                continue;
+            }
+
+            System.out.print(cur.data + " ");
+
+            if(cur.left != null){
+                q.add(cur.left);
+            }
+            if(cur.right != null){
+                q.add(cur.right);
+            }
+        }
+    }
+
     // main method
     public static void main(String[] args) {
-//        BST bst = new BST();
+        BST tree = new BST();
+        tree.root = new Node(5);
 
-        BST root1 = new BST();
-        root1.root = new Node(2);
-        root1.root.left = new Node(1);
-        root1.root.right = new Node(4);
+        insertNode(tree.root, 1);
+        insertNode(tree.root, 7);
+        insertNode(tree.root, 2);
+        insertNode(tree.root, 4);
+        insertNode(tree.root, 3);
+        insertNode(tree.root, 6);
 
-        BST root2 = new BST();
-        root2.root = new Node(1);
-        root2.root.left = new Node(0);
-        root2.root.right = new Node(3);
-
-        getAllElements(root1.root, root2.root);
-        //.out.println(pre_order1(root1.root));
-        //System.out.println(pre_order1(root2.root));
-
+        levelOrderTraversal(tree.root);
+        System.out.println("\nIn level wise print");
+        levelOrderTraversal_ln(tree.root);
     }
 }

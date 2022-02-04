@@ -311,7 +311,7 @@ public class BST extends Node{
         System.out.println();
         post_order_oneStack(bst.root);
 
-        System.out.println();
+        System.out.println("\nIn order iterative way");
         in_order(bst.root);
 
     }
