@@ -5,7 +5,7 @@ import java.util.*;
 /* Java Program to move last element to front in a given linked list */
 class Linked_List
 {
-    Node head; // head of list
+    static Node head; // head of list
 
     /* Linked list Node*/
     static class Node
@@ -35,7 +35,7 @@ class Linked_List
         head = temp;
     }
 
-    static void reverse(Node head)
+    static void reverseLL(Node head)
     {
         Node prev = null;
         Node current = head;
@@ -138,24 +138,75 @@ class Linked_List
         System.out.println();
     }
 
+    public static Node reverse(Node head){
+        Node cur = Linked_List.head;
+        Node prev = null;
+
+        while(cur != null){
+            Node temp = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = temp;
+        }
+        return prev;
+    }
+
+
+    public static boolean isPalindrome(Node head) {
+        ArrayList<Integer> list = new ArrayList<>();
+        Node temp = head;
+        Node rev = reverse(head);
+
+        while(rev != null){
+            list.add(rev.data);
+            rev = rev.next;
+        }
+
+
+        boolean flag = false;
+
+        int i = 0;
+        while(temp != null){
+            if(temp.data == list.get(i)){
+                flag = true;
+            }
+            else{
+                flag = false;
+            }
+            temp = temp.next;
+        }
+
+        return flag;
+    }
+
     /* Driver program to test above functions */
     public static void main(String args[])
     {
         Linked_List llist = new Linked_List();
         /* Constructed Linked List is 1->2->3->4->5->null */
-        llist.push(5);
-        llist.push(4);
-        llist.push(3);
-        llist.push(2);
-        llist.push(1);
-
-        llist.printList();
+//        llist.push(5);
+//        llist.push(4);
+//        llist.push(3);
+//        llist.push(2);
+//        llist.push(1);
+//
+//        llist.printList();
 
         //llist.moveToFront();
         //reverse(llist.head);
-        digit(llist.head);
+//        digit(llist.head);
+//
+//        llist.printList();
+
+        llist.push(1);
+        llist.push(2);
+        llist.push(1);
+        llist.push(1);
 
         llist.printList();
+        System.out.println(isPalindrome(head));
+
+
     }
 }
 

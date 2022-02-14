@@ -63,7 +63,7 @@ public class CircularQueue {
                 rear = -1;
             }
             else {
-                front = (front + 1) % SIZE;
+                front = (front + 1) % SIZE; // *this one works as front++ but in different way
             }
             return val;
         }
@@ -79,7 +79,7 @@ public class CircularQueue {
                 rear = -1;
             }
             else {
-                front = (front + 1) % SIZE;
+                front = (front + 1) % SIZE; // *this one works as front++ but in different way
             }
         }
     }
@@ -88,7 +88,8 @@ public class CircularQueue {
         if(front == -1 && rear == -1){
             System.out.println("Queue is empty");
         }
-        for (int i = front; i != rear; i = (i + 1) % SIZE) { // i = (i + 1) % SIZE is same as i++
+        // i cannot be rear because circular Q
+        for (int i = front; i != rear; i = (i + 1) % SIZE) { // [i = (i + 1) % SIZE] is same as i++
             System.out.print(items[i] + " -> ");
         }
         System.out.println("Front");
