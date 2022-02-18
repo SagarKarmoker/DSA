@@ -179,18 +179,83 @@ class Linked_List
         return flag;
     }
 
+    public static int firstUniqChar(String s) {
+        HashSet<Character> set = new HashSet<>();
+        char[] ch = s.toCharArray();
+        char[] c = s.toCharArray();
+
+//        for(int i = 0; i < s.length(); i++){
+//            ch[i] = c[i];
+//        }
+        int idx = 0;
+//        for(int i = 0; i < s.length(); i++){
+//            for(int j = 0; j < s.length(); j++){
+//                if (c[i] == c[j]) {
+//                    idx = i - 1;
+//                    break;
+//                }
+//            }
+//        }
+
+        for(int i = 1; i < s.length(); i++){
+            if(c[i-1] != ch[i]){
+                idx = i;
+                break;
+            }else{
+                idx = -1;
+            }
+        }
+        return idx;
+    }
+
+    public static String removeOuterParentheses(String s) {
+        Stack<Character> st = new Stack<>();
+        for(char c : s.toCharArray()){
+            if(st.isEmpty()){
+                st.push(c);
+            }
+            else if(st.peek() != c){
+                st.push(c);
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for(char c : st){
+            sb.append(c);
+        }
+
+        return sb.toString();
+    }
+
+    public static boolean isLengthEvenorOdd()
+    {
+        Node temp = head;
+        boolean s = false;
+        while(temp != null){
+            if(temp.data % 2 != 0){
+                s = false;
+                break;
+            }
+            else{
+                s = true;
+            }
+            temp = temp.next;
+        }
+        return s;
+    }
+
     /* Driver program to test above functions */
     public static void main(String args[])
     {
         Linked_List llist = new Linked_List();
         /* Constructed Linked List is 1->2->3->4->5->null */
-//        llist.push(5);
-//        llist.push(4);
-//        llist.push(3);
-//        llist.push(2);
-//        llist.push(1);
-//
-//        llist.printList();
+        llist.push(10);
+        llist.push(4);
+        llist.push(21);
+        llist.push(2);
+        llist.push(8);
+
+        llist.printList();
 
         //llist.moveToFront();
         //reverse(llist.head);
@@ -198,14 +263,19 @@ class Linked_List
 //
 //        llist.printList();
 
-        llist.push(1);
-        llist.push(2);
-        llist.push(1);
-        llist.push(1);
+//        llist.push(1);
+//        llist.push(2);
+//        llist.push(1);
+//        llist.push(1);
+//
+//        llist.printList();
+//        System.out.println(isPalindrome(head));
 
-        llist.printList();
-        System.out.println(isPalindrome(head));
 
+//        System.out.println(firstUniqChar("loveleetcode"));
+
+//        System.out.println(removeOuterParentheses("()()"));
+        System.out.println(isLengthEvenorOdd());
 
     }
 }
